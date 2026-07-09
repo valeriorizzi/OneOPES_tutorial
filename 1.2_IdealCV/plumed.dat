@@ -1,0 +1,24 @@
+# vim:ft=plumed
+#RESTART
+
+MOLINFO STRUCTURE=input.ala2.pdb
+phi: TORSION ATOMS=@phi-2
+psi: TORSION ATOMS=@psi-2
+omega: TORSION ATOMS=@omega-2
+theta: TORSION ATOMS=6,5,7,9
+ene: ENERGY
+
+OPES_METAD_EXPLORE ...
+  LABEL=opes
+  ARG=phi
+  FILE=Kernels.data
+  STATE_RFILE=compressed.Kernels
+  STATE_WFILE=compressed.Kernels
+  PACE=2000
+  BARRIER=30
+... OPES_METAD_EXPLORE
+
+PRINT STRIDE=500 FILE=COLVAR ARG=opes.bias,phi,psi,omega,theta,ene FMT=%7.4f
+
+ENDPLUMED
+
