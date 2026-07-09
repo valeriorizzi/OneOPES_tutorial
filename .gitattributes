@@ -1,0 +1,9 @@
+# Ignore PLUMED collective variable data files
+COLVAR* linguist-vendored
+*.dat linguist-vendored
+
+# GROMACS / Structure Data Files
+*.gro linguist-vendored
+*.pdb linguist-vendored
+*.tpr linguist-vendored
+*.mdp linguist-vendored
