@@ -1,7 +1,7 @@
 #!/bin/bash
 export OMP_NUM_THREADS=1
 
-mpirun -n 1 gmx_mpi mdrun -deffnm prd -plumed plumed.dat -pin on -pinoffset 16 -ntomp 1 -pme cpu -nb cpu -bonded cpu -nsteps 5000000 &
+mpirun -n 1 gmx_mpi mdrun -deffnm prd -plumed plumed.dat -pin on -ntomp 1 -pme cpu -nb cpu -bonded cpu -nsteps 5000000 &
 wait
 
 rm fes_*

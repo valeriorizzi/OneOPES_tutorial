@@ -16,7 +16,7 @@ rm -f */*.xtc */*.log */*.cpt */*.edr */COLVAR* */compres* */K* */delta* */fes* 
 
 ########## running calculation, to be commented if one wants to only analyse results
 rm -f */*.xtc */*.log */*.cpt */*.edr */COLVAR* */compres* */K* */delta* */fes* */bck* */#* */DeltaF*
-mpirun -n 4 --oversubscribe gmx_mpi mdrun -deffnm prd -plumed ../plumed.dat -pin on -pinoffset 16 -ntomp 1 -pme cpu -nb cpu -bonded cpu -nsteps $NSTEPS -multidir 0 1 2 3 &
+mpirun -n 4 --oversubscribe gmx_mpi mdrun -deffnm prd -plumed ../plumed.dat -pin on -ntomp 1 -pme cpu -nb cpu -bonded cpu -nsteps $NSTEPS -multidir 0 1 2 3 &
 wait
 ##########
 

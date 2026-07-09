@@ -20,7 +20,7 @@ for X in $(seq 1 $total_iterations); do
   done
   wait
 
-  mpirun -n 8 --oversubscribe gmx_mpi mdrun -s prd.tpr -plumed plumed.dat -pme cpu -nb cpu -bonded cpu -pin on -pinoffset 16 -nsteps 5000000 -multidir 0 1 2 3 4 5 6 7 -hrex -replex 200 &
+  mpirun -n 8 --oversubscribe gmx_mpi mdrun -s prd.tpr -plumed plumed.dat -pme cpu -nb cpu -bonded cpu -pin on -nsteps 5000000 -multidir 0 1 2 3 4 5 6 7 -hrex -replex 200 &
   sleep 2
 
   echo ""

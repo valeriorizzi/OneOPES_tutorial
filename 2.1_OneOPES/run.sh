@@ -18,7 +18,7 @@ done
 wait
 
 #10 ns simulation
-mpirun -n 8 --oversubscribe gmx_mpi mdrun -s prd.tpr -plumed plumed.dat -pme cpu -nb cpu -bonded cpu -pin on -pinoffset 16 -nsteps 5000000 -multidir 0 1 2 3 4 5 6 7 -replex 200 &
+mpirun -n 8 --oversubscribe gmx_mpi mdrun -s prd.tpr -plumed plumed.dat -pme cpu -nb cpu -bonded cpu -pin on -nsteps 5000000 -multidir 0 1 2 3 4 5 6 7 -replex 200 &
 wait
 
 cd 0
