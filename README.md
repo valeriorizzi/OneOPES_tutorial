@@ -107,11 +107,11 @@ grep 'DeltaF ' fes_blocks_phi.dat
 ```
 we run a block average and extract the corresponding $\Delta F$ value. Here, the block average divides the COLVAR in 5 blocks of equal length and independently calculates the free energy in each of them. Then, the average $\Delta F$ value between the blocks and the standard deviation are calculated.
 
-And you can visualise the 1D FES with Gnuplot command
+You can visualise the 1D FES with Gnuplot command
 ```bash
 p[][-2:100] 'fes_blocks_phi.dat' w e, 'fes_reference.dat' w e
 ``` 
-superimposing it with a given reference free energy in file fes_reference.dat.
+superimposing it with the given reference free energy.
 
 <blockquote>
 
@@ -216,7 +216,7 @@ p 'COLVAR' u 1:3:2 pal
 to see the dynamics of $\phi$ colour by the opes.bias. 
     
 > [!IMPORTANT]
-> <span id="transitions-discussion">Many transitions are observed, which is a good sign, but is not sufficient for building a converged free energy. Counting the number of back and forth transition is in fact a deceiving criterium for convergence. It is true that back and forth transitions are necessary for building a free energy as one must sample well the relevant phase space. However, if those transitions are due to an out-of-equilibrium bias potential that strongly changes in time, the reweight procudere would be noisy, ineffective and overall ill-defined. One must have back and forth transitions _and_ a quasi-static underlying bias potential to build a converged FES. </span>
+> <span id="transitions-discussion">Many transitions are observed, which is a good sign, but is not sufficient for building a converged free energy. Counting the number of back and forth transition is in fact a deceiving criterium for convergence. It is true that back and forth transitions are necessary for building a free energy as one must sample well the relevant phase space. However, if those transitions are due to an out-of-equilibrium bias potential that strongly changes in time, the reweight procedure would be noisy, ineffective and overall ill-defined. One must have back and forth transitions _and_ a quasi-static underlying bias potential to build a converged FES. </span>
 
 To check this, run
 ```bash
