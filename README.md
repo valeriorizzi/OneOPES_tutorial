@@ -4,13 +4,13 @@
 
 <img width="350" height="350" alt="ezgif-49494ac320700ea2" src="https://github.com/obzehn/renders/blob/main/gifs/video_hostguest.gif?raw=true" />
 
-*Figure 1: OneOPES logo and a host-guest system bound state dynamics. Image created and rendered by [Nicola Piasentin](https://github.com/obzehn/renders)*
+*Figure 1: OneOPES logo and host-guest system bound state dynamics. Image created and rendered by [Nicola Piasentin](https://github.com/obzehn/renders)*
 
 </div>
 
 This tutorial provides a technical guide to implementing **OneOPES** ([JCTC 2023](https://pubs.acs.org/doi/10.1021/acs.jctc.3c00254)), a replica-exchange strategy developed by Valerio Rizzi, Simone Aureli, Narjes Ansari and Francesco Luigi Gervasio. OneOPES combines enhanced sampling techniques **OPES Explore** ([JCTC 2022](https://pubs.acs.org/doi/10.1021/acs.jctc.2c00152)) and **OPES MultiThermal** ([PRX 2020](https://journals.aps.org/prx/abstract/10.1103/PhysRevX.10.041034)), recently developed by Michele Invernizzi, Pablo Piaggi and Michele Parrinello. The input files from the OneOPES paper are all available on ([PLUMED NEST](https://www.plumed-nest.org/eggs/23/011/)) and ([Github](https://github.com/valeriorizzi/OneOPES/)).
 
-OneOPES is designed to consistently deliver valid free energy results even when the accelerated Collective Variables (CVs) are suboptimal, significantly reducing the human effort usually required for fine-tuning reaction coordinates. The question of wether an enhanced sampling simulation has reached convergence is a crucial one. In fact, convergence is surprisingly hard to define unequivocally. When a reference is available, it is rather straightforward to assess convergence by direclty comparing the estimated free energy and with the reference. However, computational references are often only available in toy model systems that have an analytical solution or that can be simulated for a sufficiently long time. When dealing with open areas of research, such a reference is often unavailable. Establishing criteria to evaluate the quality of an enhanced sampling simulation is a paramount topic that we will discuss in the tutorial.
+OneOPES is designed to consistently deliver valid free energy results even when the accelerated Collective Variables (CVs) are suboptimal, significantly reducing the human effort usually required for fine-tuning reaction coordinates. The question of whether an enhanced sampling simulation has reached convergence is a crucial one. In fact, convergence is surprisingly hard to define unequivocally. When a reference is available, it is rather straightforward to assess convergence by direclty comparing the estimated free energy and with the reference. However, computational references are often only available in toy model systems that have an analytical solution or that can be simulated for a sufficiently long time. When dealing with open areas of research, such a reference is often unavailable. Establishing criteria to evaluate the quality of an enhanced sampling simulation is a paramount topic that we will discuss in the tutorial.
 
 In OneOPES, we typically have a set of replicas that range in exploratory power. While main replica 0 contains only a single bias on primary CVs, higher replicas explicitly accelerate additional degrees of freedom. Therefore an accelerated exploration of the phase space is achieved in higher replicas. The visited configurations percolate down to replica 0 through replica exchange. Replica 0 thus gains in sampling quality and is used to calculate thermodynamic properties such as the free energy. A more detailed discussion on OneOPES is present in Section 2.
 
@@ -59,7 +59,7 @@ Alanine dipeptide (Ala2) is an ideal benchmark system for a tutorial on enhanced
 
 *Figure 3: Visual depiction of Alanine Dipeptide, its two metastable states and a reference 2-dimensional FES $`F(\phi, \psi)`$ in $`k_B T`$ ([AnnRev 2016](http://www.annualreviews.org/doi/10.1146/annurev-physchem-040215-112229)). Pay attention to the apparent kinetic barrier of about 20 $`k_B T`$ between the two metastable states. This barrier would make spontanoeus thermal transitions between them _rare events_, as we will see in the Unbiased trajectory presented in Section 1.1.*
 
-**Another Disclaimer**: Ala2 is a useful playing ground to introduce important concepts, such as comparing different CVs, building a free energy surface, and calculating its error. However, it cannot be relied upon as a truly probing system. It is effectively a toy model that should not illude users to draw any solid conclusion about the general capabilities of an enahnced sampling method or of a CV building strategy on complex systems. Today, Ala2 is way too simple to represent a challenge for modern methods. Explicit tests on complex systems are needed to properly test a method. Such example exist for OneOPES and they are the true target of the strategy, but they are too expensive to run in a tutorial. We include in Section 3 a list of references to publications that use OneOPES and add the input and output of two examples: one of protein-ligand binding and one of miniprotein folding. In Section 2.2 we provide some parameter choice reccomentation and in the Troubleshooting section we point out possible solutions to common problems.
+**Another Disclaimer**: Ala2 is a useful playing ground to introduce important concepts, such as comparing different CVs, building a free energy surface, and calculating its error. However, it cannot be relied upon as a truly probing system. It is effectively a toy model that should not illude users to draw any solid conclusion about the general capabilities of an enahnced sampling method or of a CV building strategy on complex systems. Today, Ala2 is way too simple to represent a challenge for modern methods. Explicit tests on complex systems are needed to properly test a method. Such example exist for OneOPES and they are the true target of the strategy, but they are too expensive to run in a tutorial. We include in Section 3 a list of references to publications that use OneOPES and add the input and output of two examples: one of protein-ligand binding and one of miniprotein folding. In Section 2.2 we provide some parameter choice recommendation and in the Troubleshooting section we point out possible solutions to common problems.
 
 ### 1.1 Unbiased reference
 
@@ -69,17 +69,16 @@ A 87 microseconds unbiased trajectory is available on [Zenodo](https://zenodo.or
 
 Enter folder 1.1_Unbiased where you will find a downsampled version of the reference COLVAR file. Open Gnuplot in the terminal and run
 ```bash
-p 'COLVAR' u 1:2
+p 'COLVAR' u 1:2, 0
 ```
-to visualise the dynamics of $\phi$. 
-
+to visualise the dynamics of $\phi$. The two metastable states that we will explore in the tutorial are separated by the line drawn at $\phi=0$.
     
 In Gnuplot, type
 ```bash
+set cbrange [-1:1]
 p 'COLVAR' u 1:3:2 pal
 ```
-to visualise the dynamics of $\psi$ coloured by $\phi$.
-
+to visualise the dynamics of $\psi$ coloured by $\phi$, whose range is compressed $-1<\phi<1$ to highlight the position of the two metastable basins with constant colours. 
 
 <blockquote>
 
@@ -106,12 +105,13 @@ With this command
 python3 ../FES_from_Reweighting_multiT_funnel.py --sigma 0.05 --colvar COLVAR --cv phi --bin 150 --temp 300 --min -3 --max 2 --deltaFat -0.2 --blocks 5 --out fes_blocks_phi.dat;
 grep 'DeltaF ' fes_blocks_phi.dat
 ```
-we run a block average and extract the corresponding $\Delta F$ value.
+we run a block average and extract the corresponding $\Delta F$ value. Here, the block average divides the COLVAR in 5 blocks of equal length and independently calculates the free energy in each of them. Then, the average $\Delta F$ value between the blocks and the standard deviation are calculated.
 
-And you can visualise the 1D FES with Gnuplot
+And you can visualise the 1D FES with Gnuplot command
 ```bash
-p[][-2:100] 'fes_blocks_phi.dat' w e
+p[][-2:100] 'fes_blocks_phi.dat' w e, 'fes_reference.dat' w e
 ``` 
+superimposing it with a given reference free energy in file fes_reference.dat.
 
 <blockquote>
 
@@ -119,7 +119,7 @@ p[][-2:100] 'fes_blocks_phi.dat' w e
 <details>
 <summary>❓🤔 How does the FES estimation changes if you vary the number of blocks? Try with the flag --blocks 50, for example. </summary>
 <br>   
-Each block must contain enough sampling of the two basins. If that is not the case, i.e. when you use a a too large number of blocks, the quality of the FES estimation dramatically worsens.
+Each block must contain enough sampling of the two basins. If that is not the case, i.e. when you use a a too large number of blocks, the quality of the FES estimation dramatically worsens. Plot for example the free energy curve from individual blocks such as fes_blocks_phi_001.dat and superimpose them with the reference. You would see that too short blocks sometimes contain information about one basin only.
 </details>    
 </blockquote>
 
@@ -129,7 +129,11 @@ python3 ../FES_from_Reweighting_multiT_funnel.py --sigma 0.05 --colvar COLVAR --
 grep ' DeltaF ' fes_phi_* | awk '{print $4}' > deltaFtemp.dat
 awk '{sum = 0; for (i = 1; i <= NF; i++) sum += $i; sum /= NF; print NR*5000, sum}' deltaFtemp.dat > deltaF_stride.dat
 ```
-This shows the progression of $\Delta F$ as a function of simulation time, but does not offer an error estimation.
+
+In practical terms, the first 5000 lines of COLVAR are used to calculate fes_phi_001.dat, then the first 10000 lines produce fes_phi_002.dat and so on, until all the COLVAR lines are included in the free energy estimation. This allows to estimate the progression in time of $\Delta F(t)$ that can be visualised in Gnuplot with
+```bash
+p 'deltaF_stride.dat' w l
+```
 
 ### 1.2 The Ideal Case Scenario, biasing CV $\phi$
 
@@ -319,7 +323,7 @@ No, the bias is always strongly changing in time making the reweight procedure u
 
 ## Step 2: OneOPES comes to the rescue
 
-OneOPES uses a multi-replica architecture to stimulate an improved sampling. It typically uses 8 replicas (0–7), moving from **convergence-focused** (Replica 0) to **exploration-focused** (Replica 7). Higher exploration-focused replicas have the role to promote transition in phase space by accelerating multiple degrees of freedom, locally with with auxiliary CVs and globally with OPES MultiThermal. The exploratory nature of higher replicas promotes transitions between metastable states that diffuse down the replica ladder through replica exchange. That bias alone may not to be able to build an external quasi-static potential that promotes reversible back and forth transitions. Instead, with the help of higher replicas, replica 0 gains in sampling variety and has a better chance to produce well converged free energy estimates. Note that, for the strategy to be effective, it is paramount that frequent exchanges occur between replicas. The replica exchange algorithm that we use has been implemented in GROMACS by Giovanni Bussi ([MolPhys 2014](http://dx.doi.org/10.1080/00268976.2013.824126)).
+OneOPES uses a multi-replica architecture to stimulate an improved sampling. It typically uses 8 replicas (0–7), moving from **convergence-focused** (Replica 0) to **exploration-focused** (Replica 7). Higher exploration-focused replicas have the role to promote transition in phase space by accelerating multiple degrees of freedom, locally with auxiliary CVs and globally with OPES MultiThermal. The exploratory nature of higher replicas promotes transitions between metastable states that diffuse down the replica ladder through replica exchange. That bias alone may not to be able to build an external quasi-static potential that promotes reversible back and forth transitions. Instead, with the help of higher replicas, replica 0 gains in sampling variety and has a better chance to produce well converged free energy estimates. Note that, for the strategy to be effective, it is paramount that frequent exchanges occur between replicas. The replica exchange algorithm that we use has been implemented in GROMACS by Giovanni Bussi ([MolPhys 2014](http://dx.doi.org/10.1080/00268976.2013.824126)).
 
 ### 2.1 A OneOPES Example
 
@@ -567,7 +571,7 @@ We can offer some guiding principles on parameter optimisation that come from ex
 
 Regarding the number of used CVs, typically we would not exceed 3 in the main bias. In larger dimensions, the available phase space to explore and fill with a bias grows to a point that the required simulation time to visit all becomes unreachable. This same reasoning can be applied to other single replica CV-based enhanced sampling methods like Metadynamics and OPES. If one is able to compress the relevant degrees of freedom in an optimised two-dimensional space, this is typically a good solution (see ([JPCL 2025](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.5c02079)) for protein folding). 
 
-Regarding the use of auxiliary CVs, there are a number of solutions. We typically add one extra bias for every higher replica, with a delicate `BARRIER` close to thermal fluctuations and a double `PACE` compared to the one in the main bias. These settings are intended to minimisae changes between neighboring replicas so that replica exchange acceptance is maximised. The temperature range of OPES Multithermal that we would recommend using follows the same principle. Raise the maximum temperature very slowly in the lower replicas and gradually increase the $\Delta T$ between replicas as you reach the higher ones. The key guiding principle is to avoid replica exchange bottlenecks and to always keep an eye on the exchange acceptance rate. When the system is fragile, consider being more delicate or adding walls to prevent it from breaking.
+Regarding the use of auxiliary CVs, there are a number of solutions. We typically add one extra bias for every higher replica, with a delicate `BARRIER` close to thermal fluctuations and a double `PACE` compared to the one in the main bias. These settings are intended to minimise changes between neighboring replicas so that replica exchange acceptance is maximised. The temperature range of OPES Multithermal that we would recommend using follows the same principle. Raise the maximum temperature very slowly in the lower replicas and gradually increase the $\Delta T$ between replicas as you reach the higher ones. The key guiding principle is to avoid replica exchange bottlenecks and to always keep an eye on the exchange acceptance rate. When the system is fragile, consider being more delicate or adding walls to prevent it from breaking.
 
 ---
 
@@ -583,7 +587,7 @@ This system is typically used to benchmark protein-ligand binding methods. In an
 
 The double mutant CLN025 of the Chignolin miniprotein is a well-known 10-residue mini-protein that is widely studied in protein folding method development, especially after the milestone paper by Lindorff-Larsen et al. ([Science 2011](https://www.sciencemag.org/lookup/doi/10.1126/science.1208351)) where for the first time a number of mini-proteins were simulated for 100s of microseconds and their folding landscape was analysed. In that paper, Chignolin was the smallest system. We include file `fes_rmsd_ca_DEShaw.dat` with their reference free energy. 
 
-In OneOPES, we accelerate a rather simple main CV from ([JCP 2018](https://pubs.aip.org/jcp/article/149/19/194113/196500/Folding-a-small-protein-using-harmonic-linear)) that linearly combines 6 contacts via HLDA ([JPCL 2018](http://pubs.acs.org/doi/10.1021/acs.jpclett.8b00733)). As auxiliary CVs we bias the water coordination of the center of the Calphas, the termini distance and the radius of gyration. The masimum temperture reached by OPES Multithermal is 400K. We include an example input folder and as output the COLVAR of 5 independent 400 ns simulations. We observe a slight shift compared to the reference $\Delta F = 3.6 \pm 0.4$ kJ/mol.
+In OneOPES, we accelerate a rather simple main CV from ([JCP 2018](https://pubs.aip.org/jcp/article/149/19/194113/196500/Folding-a-small-protein-using-harmonic-linear)) that linearly combines 6 contacts via HLDA ([JPCL 2018](http://pubs.acs.org/doi/10.1021/acs.jpclett.8b00733)). As auxiliary CVs we bias the water coordination of the center of the Calphas, the termini distance and the radius of gyration. The maximum temperture reached by OPES Multithermal is 400K. We include an example input folder and as output the COLVAR of 5 independent 400 ns simulations. We observe a slight shift compared to the reference $\Delta F = 3.6 \pm 0.4$ kJ/mol.
 
 To better understand the system and improve the folding OneOPES strategy, in 2025 we developed a set of bioinspired CVs and used them to study again mini-protein folding ([JPCL 2025](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.5c02079)). We accelerate as main CVs a hydrogen-bond focused CV and a sidechain focused CV. As auxiliary CVs we bias the water coordination of 7 heay atoms and we reach a maximum temperature of 420 K in OPES Multithermal. We include the input files in folder `Input2025` and the corresponding COLVAR of 5 independent 1000 ns simulations in `Output2025`. We generated our own reference by running on GROMACS 3 unbiased simulations, 100 us long each. The reference free energy file is in `fes_rmsd_ca_gromacs_3x100us.dat`, the corresponding $\Delta F = 6.9 \pm 0.7$ kJ/mol and the reference trajectory is stored on [Zenodo](https://zenodo.org/records/15583283). Here, the agreement between the OneOPES simulations and the reference is robust.
 
@@ -596,7 +600,7 @@ To better understand the system and improve the folding OneOPES strategy, in 202
 | **No Transitions** | **Possible Cause:** `BARRIER` is too low.<br>**Solution:** Slightly increase the `BARRIER`, for example by about 5 kJ/mol, and run a new simulation. Wait a bit. Remember that larger systems have more degrees of freedom and typically require longer simulation times. Try using a higher `PACE` (slower deposition), especially in large systems. Eventually, consider improving your CV. |
 | **The system breaks up or visits high energy irrelevant states** | **Possible Cause:** `BARRIER` is too high<br>**Solution:** Decrease the `BARRIER` until you roughly estimate its minimum value that gives you back and forth transitions. Typically this is the ideal choice for `BARRIER`. <hr> **Possible Cause:** `PACE` is too fast<br>**Solution:** Increase `PACE`. Too fast bias deposition can be troublesome and too aggressive. A slow OPES Explore `PACE` allows a better quality external potential construction typically. <hr> **Possible Cause:** MaxTemp of OPES Multithermal too high<br>**Solution:** Decrease the maximum temperature that OPES Multithermal can reach. Some systems are more fragile than others and one must be delicate. For example biosystems in membranes should not be heated up too much, lower than 350 K, for not risking to break the membrane. |
 | **Low Exchange Rates** | **Possible Cause:** Large temperature gaps<br>**Solution:** Use a more gradual temperature ramp across replicas. Be delicate especially on the lower replicas like 1 and 2. <hr> **Possible Cause:** Too aggressive auxiliary CVs bias<br>**Solution:** The same is valid regarding the `BARRIER` parameter on the bias on auxiliary CVs, try to decrease it. |
-| **Sparse Low Exchange Rates** | **Possible Cause:** OPES MultiThermal did not generate an effective bias<br>**Solution:** Check the potential energy exploration in the replicas affected by the low exchange rates. If it is not exploring the potential energy range diffusively, but remains stuck around some values for extended portions of time. If that is the case, try changing the OPES Multithermal `PACE` or increase the equilibration period with a longer `UPDATE_FROM`. <hr> **Possible Cause:** Bugs in the code<br>**Solution:** When using PLUMED 2.10 version and GROMACS 2024 there is a bug in how replica exchange is handled that suppresses excahnges and leads to incorrect results. For the moment, we recommend using PLUMED 2.9 and GROMACS 2023 that do not present this bug. |
+| **Sparse Low Exchange Rates** | **Possible Cause:** OPES MultiThermal did not generate an effective bias<br>**Solution:** Check the potential energy exploration in the replicas affected by the low exchange rates. If it is not exploring the potential energy range diffusively, but remains stuck around some values for extended portions of time. If that is the case, try changing the OPES Multithermal `PACE` or increase the equilibration period with a longer `UPDATE_FROM`. <hr> **Possible Cause:** Bugs in the code<br>**Solution:** When using PLUMED 2.10 version and GROMACS 2024 there is a bug in how replica exchange is handled that suppresses exchanges and leads to incorrect results. For the moment, we recommend using PLUMED 2.9 and GROMACS 2023 that do not present this bug. |
 
 ---
 
@@ -626,4 +630,4 @@ We hope that this tutorial serves as a **starting point** for a user that is int
 ---
 
 ## Acknowledgements
-V.R. would like to thank Hocine El Khaoudi Enyoury, who tested a preliminary version of the tutorial during his visit to Geneva and provided valuable feedback.
+V.R. would like to thank Hocine El Khaoudi Enyoury, who tested a preliminary version of the tutorial during his visit to Geneva and provided valuable feedback. Thanks are also due to Marc Schulze for his helpful comments.
