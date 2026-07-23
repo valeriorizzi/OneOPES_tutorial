@@ -36,12 +36,17 @@ Beginner users are encouraged to gain confidence with the syntax of PLUMED and t
 
 ---
 
-For the NGMM2026 students, after logging into the HPC facility. Create an interactive job with
+For the NGMM2026 students, after logging into the HPC facility, clone this repository locally with command
+```bash
+git clone https://github.com/valeriorizzi/OneOPES_tutorial.git 
+```
+
+Then, create an interactive job with
 ```bash
 qrsh -l seixi=1 -pe mpi 2
 ```
 
-and then in the terminal run
+and run these commands in the terminal
 ```bash
 source /ELS/els9/users/ngmms2026/ngmm2026_env.sh
 module purge
