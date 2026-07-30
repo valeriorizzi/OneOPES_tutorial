@@ -1,4 +1,4 @@
-rm fes_*
+rm fes_phi* fes_b*
 
 python3 ../FES_from_Reweighting_multiT_funnel.py --sigma 0.05 --colvar COLVAR --cv phi --bin 150 --temp 300 --min -3 --max 2 --deltaFat -0.2 --blocks 5 --out fes_blocks_phi.dat;
 grep 'DeltaF ' fes_blocks_phi.dat
