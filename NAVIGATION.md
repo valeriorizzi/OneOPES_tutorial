@@ -21,8 +21,8 @@ flowchart TB;
   click D "ref3" "PLUMED Masterclass 21.2: Statistical errors in MD";
   click E "ref4" "PLUMED Masterclass 21.5: Simulations with multiple replicas";
   click F "ref5" "PLUMED Masterclass 22.03: Rethinking Metadynamics: the On-the-fly Probability Enhanced Sampling (OPES) method";
-  click G "ref6" "OneOPES current application list, with their paper reference their and corresponding input files.";
-  click H "ref7" "PLUMED Masterclass 24.16: OneOPES Tutorial for Host-Guest Systems with PLUMED";
+  click G "README.md#Applications" "OneOPES current application list, with their paper reference and their corresponding input files.";
+  click H "ref6" "PLUMED Masterclass 24.16: OneOPES Tutorial for Host-Guest Systems with PLUMED";
 ```
 
 ## References
