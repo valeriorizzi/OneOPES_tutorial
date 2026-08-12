@@ -1,9 +1,18 @@
 ref1:
-  location: 22/003
-  type: internal
-ref2:
   location: https://doi.org/10.1021/acs.jctc.3c00254
   type: external
+ref2:
+  location: 21/001
+  type: internal
 ref3:
+  location: 21/002
+  type: internal  
+ref4:
+  location: 21/005
+  type: internal  
+ref5:
+  location: 22/003
+  type: internal
+ref6:
   location: 24/016
   type: internal
