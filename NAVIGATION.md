@@ -3,7 +3,9 @@
 This tutorial was first given at the [Next-Generation Molecular Modeling Summer School 2026](https://github.com/crs4/NGMM2026).
 
 It is a self-contained tutorial that guides the user in performing enhanced sampling simulations, starting from the basics to dealing with suboptimal collective variables and introducing replica exchange.
+
 Users are encouraged to read the main reference paper and to follow the suggested accessory tutorials, from the basics of PLUMED syntax until the OPES tutorial. These tasks are given as inputs in the flow chart below.
+
 A number of OneOPES applications and a tutorial on OneOPES applied to host-guest systems are refereed as outputs in the flow chart.
 
 ```mermaid
