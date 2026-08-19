@@ -157,7 +157,7 @@ mpirun -n 1 gmx_mpi mdrun -deffnm prd -plumed plumed.dat -pin on -ntomp 1 -pme c
 
 The corresponding plumed.dat script is 
 
-``` plumed
+```plumed
 MOLINFO STRUCTURE=input.ala2.pdb
 phi: TORSION ATOMS=@phi-2
 psi: TORSION ATOMS=@psi-2
