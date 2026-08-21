@@ -16,7 +16,7 @@ In OneOPES, we typically have a set of replicas that range in exploratory power.
 
 **Disclaimer**: OneOPES is not _magic_ and does not encourage the user to be sloppy and not spend time to improve their CVs whenever possible. On the contrary, like any other CV-based enhanced sampling method, the quality of its results improves when the CV quality improves. However, in large, complicated systems such as those found in biophysics, users often reach a point where any improvement to the CV comes at a high cost, i.e. it may be very difficult, time consuming and often system dependent. These complex systems are the true target of the OneOPES strategy. Some of its applications are listed in Section 3 at the end of the tutorial.
 
-<img width="1302" height="550" alt="oneopes_scheme" src="https://github.com/user-attachments/assets/862345a0-4af0-40db-aefb-7b41b2116f9a" />
+<img src="https://github.com/user-attachments/assets/862345a0-4af0-40db-aefb-7b41b2116f9a" alt="oneopes_scheme" style="max-width: 100%; width: 600px; height: auto;" />
 
 *Figure 2: Schematic representation of the OneOPES replica exchange method ([JCTC 2023](https://pubs.acs.org/doi/10.1021/acs.jctc.3c00254))*
 
@@ -60,7 +60,7 @@ module load gromacs-2023-plumed-2.9.1-MPI
 
 Alanine dipeptide (Ala2) is an ideal benchmark system for a tutorial on enhanced sampling. This is particularly true in our case where we will discuss how CV quality dictates convergence. It is customary to define its conformation using the dihedral angles $\phi$ and $\psi$ phase space. The expected $\Delta F$ between its two main basins is $8.9 \pm 0.1$ kJ/mol ([JCTC 2023](https://pubs.acs.org/doi/10.1021/acs.jctc.3c00254)).
 
-<img width="1271" height="535" alt="ala2_valsson2016" src="https://github.com/user-attachments/assets/c5aac508-c8ba-4dba-a6ae-5e8405f96687" />
+<img src="https://github.com/user-attachments/assets/c5aac508-c8ba-4dba-a6ae-5e8405f96687" alt="ala2_valsson2016" style="max-width: 100%; width: 600px; height: auto;" />
 
 *Figure 3: Visual depiction of Alanine Dipeptide, its two metastable states and a reference 2-dimensional FES $`F(\phi, \psi)`$ in $`k_B T`$ ([AnnRev 2016](http://www.annualreviews.org/doi/10.1146/annurev-physchem-040215-112229)). Pay attention to the apparent kinetic barrier of about 20 $`k_B T`$ between the two metastable states. This barrier would make spontanoeus thermal transitions between them _rare events_, as we will see in the Unbiased trajectory presented in Section 1.1.*
 
