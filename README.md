@@ -1,10 +1,10 @@
 # Tutorial: Mastering Enhanced Sampling with OneOPES
 
-<div align="center">
+<div align="center" markdown="1">
 
-<img width="350" height="350" alt="ezgif-49494ac320700ea2" src="https://github.com/obzehn/renders/blob/main/gifs/video_hostguest.gif?raw=true" />
+<img src="https://github.com/obzehn/renders/blob/main/gifs/video_hostguest.gif?raw=true" alt="ezgif-49494ac320700ea2" style="max-width: 350px; width: 100%; height: auto;" />
 
-*Figure 1: OneOPES logo and host-guest system bound state dynamics. Image created and rendered by [Nicola Piasentin](https://github.com/obzehn/renders)*
+*Figure 1: OneOPES logo and host-guest system bound state dynamics. Image created and rendered by [Nicola Piasentin](https://github.com/obzehn/renders)*.
 
 </div>
 
@@ -16,9 +16,13 @@ In OneOPES, we typically have a set of replicas that range in exploratory power.
 
 **Disclaimer**: OneOPES is not _magic_ and does not encourage the user to be sloppy and not spend time to improve their CVs whenever possible. On the contrary, like any other CV-based enhanced sampling method, the quality of its results improves when the CV quality improves. However, in large, complicated systems such as those found in biophysics, users often reach a point where any improvement to the CV comes at a high cost, i.e. it may be very difficult, time consuming and often system dependent. These complex systems are the true target of the OneOPES strategy. Some of its applications are listed in Section 3 at the end of the tutorial.
 
-<img src="https://github.com/user-attachments/assets/862345a0-4af0-40db-aefb-7b41b2116f9a" alt="oneopes_scheme" style="max-width: 100%; width: 600px; height: auto;" />
+<div align="center" markdown="1">
+
+<img src="https://github.com/user-attachments/assets/862345a0-4af0-40db-aefb-7b41b2116f9a" alt="oneopes_scheme" style="max-width: 100%; width: 700px; height: auto;" />
 
 *Figure 2: Schematic representation of the OneOPES replica exchange method ([JCTC 2023](https://pubs.acs.org/doi/10.1021/acs.jctc.3c00254))*
+
+</div>
 
 ---
 
@@ -60,9 +64,13 @@ module load gromacs-2023-plumed-2.9.1-MPI
 
 Alanine dipeptide (Ala2) is an ideal benchmark system for a tutorial on enhanced sampling. This is particularly true in our case where we will discuss how CV quality dictates convergence. It is customary to define its conformation using the dihedral angles $\phi$ and $\psi$ phase space. The expected $\Delta F$ between its two main basins is $8.9 \pm 0.1$ kJ/mol ([JCTC 2023](https://pubs.acs.org/doi/10.1021/acs.jctc.3c00254)).
 
-<img src="https://github.com/user-attachments/assets/c5aac508-c8ba-4dba-a6ae-5e8405f96687" alt="ala2_valsson2016" style="max-width: 100%; width: 600px; height: auto;" />
+<div align="center" markdown="1">
+
+<img src="https://github.com/user-attachments/assets/c5aac508-c8ba-4dba-a6ae-5e8405f96687" alt="ala2_valsson2016" style="max-width: 100%; width: 700px; height: auto;" />
 
 *Figure 3: Visual depiction of Alanine Dipeptide, its two metastable states and a reference 2-dimensional FES $`F(\phi, \psi)`$ in $`k_B T`$ ([AnnRev 2016](http://www.annualreviews.org/doi/10.1146/annurev-physchem-040215-112229)). Pay attention to the apparent kinetic barrier of about 20 $`k_B T`$ between the two metastable states. This barrier would make spontanoeus thermal transitions between them _rare events_, as we will see in the Unbiased trajectory presented in Section 1.1.*
+
+</div>
 
 **Another Disclaimer**: Ala2 is a useful playing ground to introduce important concepts, such as comparing different CVs, building a free energy surface, and calculating its error. However, it cannot be relied upon as a truly probing system. It is effectively a toy model that should not illude users to draw any solid conclusion about the general capabilities of an enahnced sampling method or of a CV building strategy on complex systems. Today, Ala2 is way too simple to represent a challenge for modern methods. Explicit tests on complex systems are needed to properly test a method. Such example exist for OneOPES and they are the true target of the strategy, but they are too expensive to run in a tutorial. We include in Section 3 a list of references to publications that use OneOPES and add the input and output of two examples: one of protein-ligand binding and one of miniprotein folding. In Section 2.2 we provide some parameter choice recommendation and in the Troubleshooting section we point out possible solutions to common problems.
 
@@ -609,14 +617,13 @@ To better understand the system and improve the folding OneOPES strategy, in 202
 
 ---
 
-<a id="Applications"></a>
 ## Current Existing Applications
 
-<div align="center">
+<div align="center" markdown="1">
 
-<img width="800" height="800" alt="ezgif-49494ac320700ea2" src="https://github.com/obzehn/renders/blob/main/gifs/video_ADRB1.gif?raw=true" />
+<img src="https://github.com/obzehn/renders/blob/main/gifs/video_ADRB1.gif?raw=true" alt="ezgif-49494ac320700ea2" style="max-width: 800px; width: 100%; height: auto;" />
 
-*Figure 4: OneOPES logo and a sodium ion reaching its binding site in a classA GPCR. Image created and rendered by [Nicola Piasentin](https://github.com/obzehn/renders)*
+*Figure 4: OneOPES logo and a sodium ion reaching its binding site in a classA GPCR. Image created and rendered by [Nicola Piasentin](https://github.com/obzehn/renders)*.
 
 </div>
 
