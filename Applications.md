@@ -1,6 +1,5 @@
 # Current Existing Applications
 
-<div align="center">
 
 | TOC | Topic | Article & Data |
 | :---: | :--- | :--- |
@@ -11,4 +10,3 @@
 | <img width="250" alt="images_large_ct5c00600_0007" src="https://github.com/user-attachments/assets/8ae5c525-e10f-4d3d-a43f-c1eb13c8c16e" /> | **GPCR Activation** | [JCTC 2025](https://pubs.acs.org/doi/full/10.1021/acs.jctc.5c00600) &nbsp;&#124;&nbsp; [PLUMED NEST](https://www.plumed-nest.org/eggs/25/020/)<br>[JPCL 2026](https://pubs.acs.org/doi/full/10.1021/acs.jpclett.5c03834) &nbsp;&#124;&nbsp; [PLUMED NEST](https://www.plumed-nest.org/eggs/26/002/)<br>[biorXiv 2026](https://www.biorxiv.org/content/10.64898/2026.06.12.731880) &nbsp;&#124;&nbsp; [Github](https://github.com/saureli/MOR_OneOPES) |
 | <img width="200" alt="image" src="https://github.com/user-attachments/assets/81135c34-15e0-4245-93be-57b9a86c34cd" /> | **Ion Channel Modulation** | [bioRxiv 2026](https://www.biorxiv.org/content/10.64898/2026.02.13.705734) &nbsp;&#124;&nbsp; [Zenodo](https://zenodo.org/records/18622314) |
 
-</div>
