@@ -107,15 +107,16 @@ There is a strong overlap between the two metastable basins in $\psi$, while $\p
 
 TESTING
 
-<details markdown="1" style="border: 1px solid #2196F3; border-left: 6px solid #2196F3; background-color: #f4f8fb; padding: 10px; margin: 15px 0; border-radius: 4px;">
-<summary style="font-weight: bold; cursor: pointer; color: #1976D2;">
-  ❓🤔 NOTE: Does $\psi$ distinguish well the Ala2 basins? How does it compare to $\phi$?
-</summary>
-
-<br>
-
-There is a strong overlap between the two metastable basins in $\psi$, while $\phi$ distinguishes them well. While there are a number of other factors that determine the quality of a CV to be accelerated in enhanced sampling, if a CV does not distinguish the free energy basins and the transition state region, it has no hope to be a good quality CV. See also the FES in Fig. 3.
-</details>
+> [!NOTE]
+> <div markdown="1">
+>
+> <details markdown="1">
+> <summary><b>❓🤔 Does $\psi$ distinguish well the Ala2 basins? How does it compare to $\phi$?</b></summary>
+>
+> There is a strong overlap between the two metastable basins in $\psi$, while $\phi$ distinguishes them well. While there are a number of other factors that determine the quality of a CV to be accelerated in enhanced sampling, if a CV does not distinguish the free energy basins and the transition state region, it has no hope to be a good quality CV. See also the FES in Fig. 3.
+> </details>
+>
+> </div>
 
 1.1.2  **Calculate the Free energy surface and the $\Delta F$** 
 
