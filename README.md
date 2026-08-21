@@ -2,7 +2,7 @@
 
 <div align="center" markdown="1">
 
-<img src="https://github.com/obzehn/renders/blob/main/gifs/video_hostguest.gif?raw=true" alt="ezgif-49494ac320700ea2" style="max-width: 350px; width: 100%; height: auto;" />
+<img src="https://github.com/obzehn/renders/blob/main/gifs/video_hostguest.gif?raw=true" alt="ezgif-49494ac320700ea2" style="max-width: 350px; width: 50%; height: auto;" />
 
 *Figure 1: OneOPES logo and host-guest system bound state dynamics. Image created and rendered by [Nicola Piasentin](https://github.com/obzehn/renders)*.
 
